@@ -42,8 +42,24 @@ download_release() {
 	filename="$2"
 
 	# TODO: Adapt the release URL convention for tailspin
-	url="$GH_REPO/archive/v${version}.tar.gz"
 
+	local platform
+	case "$OSTYPE" in
+		darwin*) platform="apple-darwin" ;;
+		linux*) platform="unknown-linux-musl" ;;
+		*) fail "Unsupported platform" ;;
+	esac
+
+	local architecture
+	case "$(uname -m)" in
+		x86_64) architecture="x86_64" ;;
+		arm64) architecture="x86_64" ;; # no armv64 build :(
+		*) fail "Unsupported architecture" ;;
+	esac
+
+    # https://github.com/bensadeh/tailspin/releases/download/3.0.0/tailspin-x86_64-unknown-linux-musl.tar.gz
+    # https://github.com/bensadeh/tailspin/releases/download/3.0/tailspin-x86_64-unknown-linux-musl.tar.gz
+	url="$GH_REPO/releases/download/${version}/tailspin-${architecture}-${platform}.tar.gz"
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
