@@ -4,8 +4,8 @@ set -euo pipefail
 
 # TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for tailspin.
 GH_REPO="https://github.com/bensadeh/tailspin"
-TOOL_NAME="tailspin"
-TOOL_TEST="tailspin --help"
+TOOL_NAME="tspin"
+TOOL_TEST="tspin --help"
 
 fail() {
 	echo -e "asdf-$TOOL_NAME: $*"
@@ -57,9 +57,8 @@ download_release() {
 		*) fail "Unsupported architecture" ;;
 	esac
 
-    # https://github.com/bensadeh/tailspin/releases/download/3.0.0/tailspin-x86_64-unknown-linux-musl.tar.gz
-    # https://github.com/bensadeh/tailspin/releases/download/3.0/tailspin-x86_64-unknown-linux-musl.tar.gz
 	url="$GH_REPO/releases/download/${version}/tailspin-${architecture}-${platform}.tar.gz"
+	echo $url
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
