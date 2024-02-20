@@ -58,7 +58,6 @@ download_release() {
 	esac
 
 	url="$GH_REPO/releases/download/${version}/tailspin-${architecture}-${platform}.tar.gz"
-	echo $url
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
